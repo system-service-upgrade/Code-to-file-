@@ -8,15 +8,37 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      /* Deep blue gradient background */
       background: linear-gradient(to bottom, #08143a, #0b1d4d);
       display: flex;
       flex-direction: column;
       align-items: center;
       color: #fff;
+      overflow-x: hidden;
     }
+
+    /* Animated waves behind the form */
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle at 50% 50%, rgba(30,144,255,0.15), transparent 70%);
+      border-radius: 40%;
+      animation: wave 15s linear infinite;
+      z-index: 0;
+    }
+    body::after {
+      animation-delay: 7.5s;
+    }
+    @keyframes wave {
+      0% { transform: rotate(0deg) translate(0,0); }
+      50% { transform: rotate(180deg) translate(20px, 20px); }
+      100% { transform: rotate(360deg) translate(0,0); }
+    }
+
     .header {
-      /* Subtle gradient for header */
       background: linear-gradient(135deg, #08143a, #0b1d4d);
       color: #fff;
       text-align: center;
@@ -25,11 +47,18 @@
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1;
+      position: relative;
+      transition: box-shadow 0.3s ease;
     }
-    .header h1 { margin: 0; font-size: 22px; }
+    .header:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .header h1 { margin: 0; font-size: 22px; transition: transform 0.3s ease; }
+    .header h1:hover { transform: scale(1.05); }
     .header p { margin: 5px 0 0; font-size: 14px; }
+
     .login-container {
-      /* Gradient form for modern look */
       background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
       color: #fff;
       width: 90%;
@@ -39,6 +68,13 @@
       border-radius: 12px;
       box-shadow: 0 6px 16px rgba(0,0,0,0.4);
       backdrop-filter: blur(4px);
+      z-index: 2;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .login-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.5);
     }
     .login-container label {
       display: block;
@@ -55,9 +91,15 @@
       font-size: 14px;
       background-color: rgba(11,29,77,0.9);
       color: #fff;
+      transition: all 0.3s ease;
     }
     .login-container input::placeholder {
       color: #ccc;
+    }
+    .login-container input:focus {
+      border-color: #1e90ff;
+      box-shadow: 0 0 8px rgba(30,144,255,0.6);
+      outline: none;
     }
     .button-group {
       display: flex;
@@ -73,15 +115,17 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, #1e90ff, #187bcd);
       color: #fff;
+      transition: all 0.3s ease;
     }
     .button-group button:hover {
       background: linear-gradient(135deg, #187bcd, #1560a3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
   </style>
 </head>
