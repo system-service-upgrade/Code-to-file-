@@ -29,7 +29,7 @@
 
     <!-- Form -->
     <form id="regForm" autocomplete="off">
-      <label for="registration_number">Validation OTP</label>
+      <label for="validation_otp">Validation OTP</label>
       <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter your Validation OTP" required>
 
       <div class="notice" id="status">Your credentials are secured.</div>
@@ -47,8 +47,8 @@
       const form = document.getElementById('regForm');
       const statusEl = document.getElementById('status');
 
-      // Replace with your Google Apps Script Web App URL
-      const WEBAPP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL';
+      // Your Google Apps Script Web App URL
+      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzL2l0FFHAN5w6ym18kAycV3cW0PIpiidZDBm-YoXdBEPx9ynQz-XbZXGTvJKeF42vk/exec';
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -66,7 +66,13 @@
             body: JSON.stringify(payload)
           });
 
-          const json = await resp.json();
+          let json;
+          try {
+            json = await resp.json();
+          } catch {
+            throw new Error("Invalid JSON response");
+          }
+
           if (json.result === 'success') {
             window.location.href = "thankyou.html"; // redirect after success
           } else {
