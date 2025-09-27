@@ -8,10 +8,9 @@
     body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
     .container { max-width:400px; margin:40px auto; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; text-align:center; }
     .header{ background:#0b6b3a; color:#fff; text-align:center; padding:22px 15px; }
-    .header h2{ margin:0 0 8px; font-size:18px; line-height:1.3; }
-    .header p{ margin:0; font-size:13px; font-weight:700; text-transform:uppercase; opacity:0.95; }
-    .content { padding:30px; font-size:16px; color:#333; }
-    .btn{ display:inline-block; margin-top:20px; background:#0b6b3a; color:#fff; padding:12px 20px; font-size:16px; font-weight:700; border:none; border-radius:6px; text-decoration:none; }
+    .header h2{ margin:0 0 8px; font-size:20px; line-height:1.3; }
+    .message { padding:30px 20px; font-size:16px; color:#333; }
+    .btn{ display:inline-block; margin-top:20px; background:#0b6b3a; color:#fff; padding:12px 20px; font-size:15px; font-weight:700; border:none; border-radius:6px; cursor:pointer; text-decoration:none; transition:background .2s; }
     .btn:hover{ background:#094e2b; }
     .footer{ background:#0b6b3a; color:#fff; text-align:center; padding:12px; font-size:13px; }
   </style>
@@ -19,13 +18,15 @@
 <body>
   <div class="container">
     <div class="header">
-      <h2>Validation Complete</h2>
-      <p>THANK YOU</p>
+      <h2>Validation Successful</h2>
     </div>
-    <div class="content">
-      <p>Your OTP has been validated successfully.</p>
-      <a href="index.html" class="btn">← Back to Home</a>
+
+    <div class="message">
+      <p>Your OTP has been validated successfully and recorded.</p>
+      <p>Thank you for completing the process.</p>
+      <a href="index.html" class="btn">← Go Back Home</a>
     </div>
+
     <div class="footer">
       © 2025 Secure Services – All Rights Reserved
     </div>
