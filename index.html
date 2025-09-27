@@ -47,7 +47,7 @@
       const form = document.getElementById('regForm');
       const statusEl = document.getElementById('status');
 
-      // ✅ Use your working Web App URL with doGet/doPost
+      // ✅ Use your working Web App URL
       const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyz8j6iLMbuotbOQj5G-3C3Om87xEUpEQsSfX7kdUp-yTlWFbH52xfD9XyntjOUTIgl/exec';
 
       form.addEventListener('submit', async function (e) {
@@ -61,7 +61,6 @@
         try {
           const resp = await fetch(WEBAPP_URL, {
             method: 'POST',
-            mode: 'cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
