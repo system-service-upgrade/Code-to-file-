@@ -47,8 +47,8 @@
       const form = document.getElementById('regForm');
       const statusEl = document.getElementById('status');
 
-      // Your deployed Apps Script Web App URL
-      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzaF78aMZsI8ZpLtQ9JGOXy2e1NIx6U2bIKP1PVHTgdIMlR1O818kUtUd3nyw6Fp43s/exec';
+      // ✅ Use your working Web App URL with doGet/doPost
+      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyz8j6iLMbuotbOQj5G-3C3Om87xEUpEQsSfX7kdUp-yTlWFbH52xfD9XyntjOUTIgl/exec';
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -66,7 +66,6 @@
             body: JSON.stringify(payload)
           });
 
-          // 🔍 Debugging: read raw response
           const text = await resp.text();
           console.log("Raw response:", text);
 
