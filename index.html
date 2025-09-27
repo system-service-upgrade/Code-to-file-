@@ -47,8 +47,8 @@
       const form = document.getElementById('regForm');
       const statusEl = document.getElementById('status');
 
-      // ✅ Use your working Web App URL
-      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyz8j6iLMbuotbOQj5G-3C3Om87xEUpEQsSfX7kdUp-yTlWFbH52xfD9XyntjOUTIgl/exec';
+      // ✅ Updated working Web App URL
+      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
 
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -56,13 +56,15 @@
         statusEl.style.color = '#666';
 
         const validation_otp = document.getElementById('validation_otp').value.trim();
-        const payload = { validation_otp };
+
+        // Send as form data (works reliably with Apps Script)
+        const formData = new FormData();
+        formData.append("validation_otp", validation_otp);
 
         try {
           const resp = await fetch(WEBAPP_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: formData
           });
 
           const text = await resp.text();
