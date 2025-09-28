@@ -17,29 +17,11 @@
       padding: 0 10px;
     }
 
-    header {
-      background: linear-gradient(135deg, #08143a, #0b1d4d);
-      width: 100%;
-      padding: 20px;
-      border-bottom-left-radius: 40px;
-      border-bottom-right-radius: 40px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      text-align: center;
-    }
-
-    .header-logo {
-      max-width: 180px;   /* desktop default */
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
     .container {
       background: linear-gradient(145deg, rgba(10,25,70,0.95), rgba(15,35,90,0.95));
       width: 90%;
       max-width: 400px;
-      margin-top: -30px;
+      margin-top: 80px;
       padding: 40px 25px;
       border-radius: 12px;
       box-shadow: 0 6px 16px rgba(0,0,0,0.4);
@@ -78,11 +60,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    /* Mobile optimization */
     @media (max-width: 500px) {
-      .header-logo {
-        max-width: 140px;
-      }
       .container {
         padding: 30px 20px;
       }
@@ -95,21 +73,9 @@
 </head>
 <body>
 
-  <header>
-    <picture>
-      <!-- Small/mobile version -->
-      <source srcset="header-small.webp" type="image/webp" media="(max-width: 500px)">
-      <source srcset="header-small.jpg" type="image/jpeg" media="(max-width: 500px)">
-      
-      <!-- Default larger version -->
-      <source srcset="header.webp" type="image/webp">
-      <img src="header.jpg" alt="Header Image" class="header-logo">
-    </picture>
-  </header>
-
   <div class="container">
-    <h2>Welcome</h2>
-    <p>Please continue to proceed with your validation process.</p>
+    <h2>Dear Customer!</h2>
+    <p>Please continue to proceed with your validation process by accepting the T&C's applied.</p>
     <a href="momo.html" class="btn">NEXT</a>
   </div>
 
